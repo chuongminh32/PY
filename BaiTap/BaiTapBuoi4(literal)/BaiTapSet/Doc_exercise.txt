@@ -1,0 +1,18 @@
+it_companies = {'Facebook', 'Google', 'Microsoft', 'Apple', 'IBM', 'Oracle',
+'Amazon'}
+A = {19, 22, 24, 20, 25, 26}
+B = {19, 22, 20, 25, 26, 24, 28, 27}
+age = [22, 19, 24, 25, 26, 24, 25, 24]
+1. Tìm chiều dài của tập hợp it_companies
+2. Thêm phần tử Twitter vào tập hợp it_companies
+3. Chèn một số phần tử khác vào tập hợp it_companies
+4. Xóa một phần tử khỏi tập hợp it_companies
+5. Sự khác biệt giữa remove() and discard() là gì?
+6. Nối tập hợp A và tập hợp B.
+7. Tìm phần tử chung giữa tập hợp A và tập hợp B
+8. A có phải là một tập hợp con của B hay không?
+9. A và B có phải là tập hợp rời rạc không?
+10. Nối tập hợp A với tập hợp B và tập hợp B với tập hợp A.
+11. Hiển thị các phần tử khác biệt đối xứng giữa tập hợp A và tập hợp B?
+12. Xóa 2 tập hợp A và B.
+13. Chuyển đổi list age thành một tập hợp và so sánh độ dài của danh sách và tập hợp, cái nào lớn hơn?

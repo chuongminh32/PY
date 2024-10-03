@@ -1,0 +1,15 @@
+Xoa package 
+pip list
+pip uninstall <tên_package>
+Ex: pip uninstall math_utils
+
+math_utils_package/      # Thư mục gốc chứa package
+│
+├── math_utils/          # Thư mục con chứa mã nguồn của package
+│   ├── __init__.py
+│   ├── add.py
+│   └── subtract.py
+│
+└── setup.py
+
+thu muc phai co file _init__.py -> la 1 package

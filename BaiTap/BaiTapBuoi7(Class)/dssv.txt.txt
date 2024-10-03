@@ -1,0 +1,4 @@
+123456789|Nguyen Van A|1998|101,Machine Learning,30|102,Deep Learning,40
+987654321|Tran Thi B|2000|103,Data Science,25|104,AI for Business,35
+456789123|Le Van C|1999|101,Machine Learning,30
+321654987|Pham Thi D|1997|102,Deep Learning,40|105,Computer Vision,45

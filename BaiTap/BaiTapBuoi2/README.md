@@ -1,0 +1,1 @@
+#echo"cd /g/NamII_HK1/PY/SCHOOL/BaiTap/BaiTapBuoi2"
