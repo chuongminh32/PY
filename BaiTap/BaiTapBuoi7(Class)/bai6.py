@@ -159,7 +159,7 @@ def count_students_per_subject():
 def main():
     while True:
         # Hiển thị menu lựa chọn cho người dùng
-        print("\n=== Quản lý học viên trung tâm AI ===")
+        print("\n=== Quản lý học viên HCMUTE ===")
         print("1. Nhập thông tin học viên")
         print("2. Hiển thị thông tin tất cả học viên")
         print("3. Hiển thị học viên đăng ký ít nhất hai môn")
