@@ -571,6 +571,49 @@ plt.ylim(0, 20)  # Điều chỉnh phạm vi trục y
 
 
 
+BT MATPLOTLIB 
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Tạo giá trị cho x
+x = np.arange(-3 * np.pi, 0, 0.1)
+x2 = np.arange(0, 3 * np.pi, 0.1)
+theta = np.arange(0, 2*np.pi ,0.01)
+   
+
+# Hàm y = 1.5 * sin(x)
+y = 1.5 * np.sin(x)
+r = 2 + np.cos(10 * theta) + 2 * np.sin(5 * theta)
+y2 = 1.5 * np.sin(x2)
+
+
+# Tạo figure cho đồ thị
+plt.figure(figsize=(8, 6))
+
+# Vẽ đồ thị 1  với đường màu đỏ 
+plt.plot(x, y, 'r:', label=r"$y = 1.5\sin(x)$ with $x \in [-3\pi; 0]$", linewidth=3)
+
+# Đồ thị thứ hai: r = 2 + cos(10θ) + 2sin(5θ)
+plt.plot(theta, r, 'g-', label=r"$r = 2 + \cos(10\theta) + 2\sin(5\theta)$", linewidth=3)
+
+# Vẽ đồ thị 2  với đường màu đỏ 
+plt.plot(x2, y2, 'b:', label=r"$y = 1.5\sin(x)$ with $x \in [0; 3\pi]$", linewidth=3)
+
+# Cài đặt giới hạn cho trục x và y
+plt.xlim(-10, 10)  # Giới hạn trục x từ -10 đến 10
+plt.ylim(-6, 6)  # Giới hạn trục y từ -6 đến 6
+
+# Thêm grid
+plt.grid(True)
+
+# # Hiển thị legend
+plt.legend()
+
+# Hiển thị đồ thị
+plt.show()
+
+
+
 
 
 
@@ -705,3 +748,86 @@ Cú pháp: df.corr()
 Ví dụ:
 
 df.corr()  # Tính toán ma trận tương quan"""
+
+
+
+
+
+"""
+BT PANDAS 
+1/ 
+import pandas as pd
+
+# a. Đọc dữ liệu từ tập tin đã cho, sử dụng ký tự phân tách là dấu '|' 
+df = pd.read_csv('D:/NamII_HK1/PY/SCHOOL/Code/BaiTap/BaiTapBuoi11(pandas)/u.user', sep='|')
+
+# b. Độ tuổi trung bình của mỗi nghề nghiệp
+avg_age_by_occupation = df.groupby('occupation')['age'].mean()
+print("Độ tuổi trung bình của mỗi nghề nghiệp:\n", avg_age_by_occupation)
+
+# c. Tỷ lệ số lượng người trên mỗi nghề và sắp xếp từ cao đến thấp
+occupation_counts = df['occupation'].value_counts(normalize=True) * 100
+sorted_occupation_counts = occupation_counts.sort_values(ascending=False)
+print("\nTỷ lệ phần trăm trên mỗi nghề nghiệp (sắp xếp từ cao đến thấp):\n", sorted_occupation_counts)
+
+# d. Độ tuổi nhỏ nhất và lớn nhất cho mỗi nghề nghiệp
+age_min_max_by_occupation = df.groupby('occupation')['age'].agg(['min', 'max'])
+print("\nĐộ tuổi nhỏ nhất và lớn nhất cho mỗi nghề nghiệp:\n", age_min_max_by_occupation)
+
+# e. Tuổi trung bình cho mỗi tổ hợp của nghề nghiệp và giới tính
+avg_age_by_occupation_gender = df.groupby(['occupation', 'gender'])['age'].mean()
+print("\nTuổi trung bình cho mỗi tổ hợp của nghề nghiệp và giới tính:\n", avg_age_by_occupation_gender)
+
+# f. Tỷ lệ phần trăm nam và nữ trên mỗi nghề nghiệp
+gender_counts_by_occupation = df.groupby(['occupation', 'gender']).size().unstack(fill_value=0)
+print(gender_counts_by_occupation)
+# gender_percentage_by_occupation = gender_counts_by_occupation.div(gender_counts_by_occupation.sum(axis=1), axis=0) * 100
+# print("\nTỷ lệ phần trăm nam và nữ trên mỗi nghề nghiệp:\n", gender_percentage_by_occupation)
+
+
+2/
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# a. Đọc dữ liệu từ tập tin đã cho
+df = pd.read_csv('D:/NamII_HK1/PY/SCHOOL/Code/BaiTap/BaiTapBuoi11(pandas)/chipotle.tsv', sep='\t')
+
+df['item_price'] = df['item_price'].replace('[\$,]', '', regex=True).astype(float)  # Chuyển item_price thành dạng float
+print("Dữ liệu đã được tải thành công!")
+
+# b. Liệt kê những sản phẩm có giá hơn 10$ (lược bỏ những dòng trùng tên sản phẩm)
+products_above_10 = df[df['item_price'] > 10]['item_name'].drop_duplicates()
+print("Các sản phẩm có giá trên 10$:\n", products_above_10)
+
+# c. Sắp xếp các sản phẩm theo tên
+sorted_products = df['item_name'].drop_duplicates().sort_values()
+print("Danh sách các sản phẩm đã được sắp xếp theo tên:\n", sorted_products)
+
+# d. Tìm sản phẩm có giá cao nhất trong danh sách
+most_expensive_item = df.loc[df['item_price'].idxmax()]
+print("Sản phẩm có giá cao nhất là:\n", most_expensive_item)
+
+# e. Cho biết sản phẩm “Veggie Salad Bowl” xuất hiện trong bao nhiêu đơn hàng với tổng số lượng được đặt
+veggie_salad_orders = df[df['item_name'] == 'Veggie Salad Bowl']
+veggie_salad_count = veggie_salad_orders['order_id'].nunique()
+veggie_salad_quantity = veggie_salad_orders['quantity'].sum()
+print(f"Sản phẩm 'Veggie Salad Bowl' xuất hiện trong {veggie_salad_count} đơn hàng với tổng số lượng được đặt là {veggie_salad_quantity}")
+
+# f. Vẽ biểu đồ histogram cho 5 sản phẩm được mua nhiều nhất với tần suất mua
+top_5_items = df.groupby('item_name')['quantity'].sum().nlargest(5)
+plt.figure(figsize=(10, 6))
+top_5_items.plot(kind='bar', color='skyblue')
+plt.title('Top 5 sản phẩm được mua nhiều nhất')
+plt.xlabel('Tên sản phẩm')
+plt.ylabel('Tần suất mua')
+plt.show()
+
+# g. Vẽ biểu đồ scatter với số lượng mặt hàng được đặt hàng trên mỗi đơn hàng
+order_items = df.groupby('order_id')['quantity'].sum()
+plt.figure(figsize=(10, 6))
+plt.scatter(order_items.index, order_items.values, color='blue', alpha=0.5)
+plt.title('Số lượng mặt hàng được đặt trên mỗi đơn hàng')
+plt.xlabel('Order ID')
+plt.ylabel('Số lượng mặt hàng')
+plt.show()
+"""
