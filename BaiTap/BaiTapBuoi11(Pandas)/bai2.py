@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # a. Đọc dữ liệu từ tập tin đã cho
-df = pd.read_csv('D:/NamII_HK1/PY/SCHOOL/Code/BaiTap/BaiTapBuoi11(chart)/chipotle.tsv', sep='\t')
+df = pd.read_csv('D:/NamII_HK1/PY/SCHOOL/Code/BaiTap/BaiTapBuoi11(pandas)/chipotle.tsv', sep='\t')
 
 df['item_price'] = df['item_price'].replace('[\$,]', '', regex=True).astype(float)  # Chuyển item_price thành dạng float
 print("Dữ liệu đã được tải thành công!")

@@ -1,7 +1,7 @@
 import pandas as pd
 
 # a. Đọc dữ liệu từ tập tin đã cho
-df = pd.read_csv('D:/NamII_HK1/PY/SCHOOL/Code/BaiTap/BaiTapBuoi11(chart)/wind.data', delim_whitespace=True)
+df = pd.read_csv('D:/NamII_HK1/PY/SCHOOL/Code/BaiTap/BaiTapBuoi11(pandas)/wind.data', delim_whitespace=True)
 
 # b. Hợp nhất ba cột đầu tiên (Yr, Mo, Dy) thành "Yr_Mo_Dy" với định dạng “yyyy-MM-dd”
 df['Yr_Mo_Dy'] = pd.to_datetime(df[['Yr', 'Mo', 'Dy']].astype(str).agg('-'.join, axis=1), format='%y-%m-%d')

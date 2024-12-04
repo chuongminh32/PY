@@ -42,3 +42,4 @@ print(f"Khoảng cách giữa hai điểm: {point1.KhoangCach2(point2):.2f}")
 # Tịnh tiến điểm 1 theo cả hai hướng
 point1.TinhTien(2, 3)
 point1.display_info()
+

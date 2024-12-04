@@ -1,192 +1,127 @@
-import json  # Thư viện json dùng để xử lý dữ liệu theo định dạng JSON
-
-# Lớp Student chứa thông tin học viên
 class Student:
-    # Phương thức khởi tạo lớp Student với các thuộc tính: mã số, họ tên, năm sinh, và danh sách môn học
-    def __init__(self, id_number, name, birth_year, subjects):
-        self.id_number = id_number  # CMND, căn cước, mã số giấy khai sinh
-        self.name = name  # Họ tên
-        self.birth_year = birth_year  # Năm sinh
-        self.subjects = subjects  # Danh sách môn học (mã môn, tên môn, số tiết)
+    def __init__(self, cmnd, name, year_of_birth):
+        self.cmnd = cmnd
+        self.name = name
+        self.year_of_birth = year_of_birth
+        self.courses = []  # Danh sách các môn học học viên đăng ký
 
-    # Hàm hiển thị thông tin học viên
-    def display_info(self):
-        # Hiển thị các thông tin cơ bản của học viên
-        print(f"CMND/CCCD/MSGS: {self.id_number}")
-        print(f"Họ tên: {self.name}")
-        print(f"Năm sinh: {self.birth_year}")
-        print("Danh sách các môn học:")
-        
-        # Duyệt qua danh sách các môn học và hiển thị thông tin từng môn
-        for subject in self.subjects:
-            print(f"  Mã môn: {subject['subject_code']}, Tên môn: {subject['subject_name']}, Số tiết: {subject['hours']}")
-        print()
-
-# Hàm nhập thông tin học viên từ người dùng và lưu vào tập tin dssv.txt
-def add_student():
-    # Nhập thông tin cá nhân của học viên
-    id_number = input("Nhập CMND/CCCD/MSGS: ")
-    name = input("Nhập họ tên học viên: ")
-    birth_year = input("Nhập năm sinh học viên: ")
-    subjects = []  # Khởi tạo danh sách các môn học của học viên
-
-    # Vòng lặp để nhập nhiều môn học cho học viên
-    while True:
-        # Nhập thông tin từng môn học
-        subject_code = input("Nhập mã môn học: ")
-        subject_name = input("Nhập tên môn học: ")
-        hours = int(input("Nhập số tiết: "))
-        
-        # Thêm thông tin môn học vào danh sách
-        subjects.append({
-            'subject_code': subject_code,
-            'subject_name': subject_name,
-            'hours': hours
+    def add_course(self, course_code, course_name, number_of_hours):
+        self.courses.append({
+            'course_code': course_code,
+            'course_name': course_name,
+            'number_of_hours': number_of_hours
         })
-        
-        # Hỏi người dùng có muốn thêm môn học khác không
-        another = input("Bạn có muốn thêm môn khác? (y/n): ")
-        if another.lower() != 'y':  # Thoát khỏi vòng lặp nếu không thêm môn nữa
-            break
 
-    # Tạo đối tượng học viên với thông tin đã nhập
-    student = Student(id_number, name, birth_year, subjects)
-    # Lưu thông tin học viên vào tập tin
-    save_student(student)
+    # Định nghĩa hàm __str__ để chuyển đối tượng thành chuỗi dễ đọc
+    def __str__(self):
+        courses_info = "\n".join([f"   Mã môn: {course['course_code']}, Tên môn: {course['course_name']}, Số tiết: {course['number_of_hours']}" for course in self.courses])
+        return f"CMND: {self.cmnd}, Tên: {self.name}, Năm sinh: {self.year_of_birth}\n{courses_info}"
 
-# Hàm lưu thông tin học viên vào tập tin dssv.txt
-def save_student(student):
-    try:
-        # Mở tập tin dssv.txt để đọc danh sách học viên hiện có
-        with open("dssv.txt", "r") as file:
-            students = json.load(file)  # Đọc dữ liệu JSON từ file và chuyển thành danh sách
-    except FileNotFoundError:
-        students = []  # Nếu file không tồn tại, khởi tạo danh sách trống
+class Center:
+    def __init__(self):
+        self.students = []  # Danh sách học viên
 
-    # Thêm thông tin học viên mới vào danh sách
-    student_data = {
-        'id_number': student.id_number,
-        'name': student.name,
-        'birth_year': student.birth_year,
-        'subjects': student.subjects
-    }
-    students.append(student_data)
+    def add_student(self, student):
+        self.students.append(student)
 
-    # Ghi lại danh sách học viên vào file dưới dạng JSON
-    with open("dssv.txt", "w") as file:
-        json.dump(students, file)
+    def save_to_file(self):
+        with open("dssv.txt", "w") as file:
+            for student in self.students:
+                file.write(str(student) + "\n")
 
-# Hàm hiển thị tất cả học viên từ tập tin dssv.txt
-def display_all_students():
-    try:
-        # Mở tập tin và đọc danh sách học viên
-        with open("dssv.txt", "r") as file:
-            students = json.load(file)  # Chuyển dữ liệu JSON thành danh sách
-            # Hiển thị thông tin từng học viên
-            for student in students:
-                std = Student(student['id_number'], student['name'], student['birth_year'], student['subjects'])
-                std.display_info()
-    except FileNotFoundError:
-        print("Chưa có học viên nào được đăng ký.")  # Thông báo khi không có học viên nào
+    def show_students(self):
+        for student in self.students:
+            print(str(student))
 
-# Hàm hiển thị các học viên đã đăng ký ít nhất hai môn học
-def display_students_with_two_subjects():
-    try:
-        # Đọc dữ liệu từ tập tin
-        with open("dssv.txt", "r") as file:
-            students = json.load(file)
-            # Duyệt qua từng học viên và kiểm tra điều kiện
-            for student in students:
-                if len(student['subjects']) >= 2:  # Chỉ hiển thị học viên có ít nhất 2 môn
-                    std = Student(student['id_number'], student['name'], student['birth_year'], student['subjects'])
-                    std.display_info()
-    except FileNotFoundError:
-        print("Chưa có học viên nào được đăng ký.")  # Thông báo nếu file không tồn tại
+    def show_students_with_multiple_courses(self):
+        for student in self.students:
+            if len(student.courses) >= 2:
+                print(str(student))
 
-# Hàm hiển thị môn học được nhiều học viên đăng ký nhất
-def display_most_registered_subject():
-    try:
-        # Đọc dữ liệu từ tập tin
-        with open("dssv.txt", "r") as file:
-            students = json.load(file)
-            subject_count = {}  # Khởi tạo dictionary để đếm số lượng học viên đăng ký từng môn
-            
-            # Duyệt qua danh sách học viên và đếm số lượng đăng ký mỗi môn
-            for student in students:
-                for subject in student['subjects']:
-                    if subject['subject_code'] in subject_count:
-                        # key = ma mon hoc subject['subject_code'] , tang 
-                        subject_count[subject['subject_code']]['count'] += 1
-                    else:
-                        subject_count[subject['subject_code']] = {
-                            'name': subject['subject_name'],
-                            'count': 1
-                        }
+    def most_popular_course(self):
+        course_count = {}
+        for student in self.students:
+            for course in student.courses:
+                course_name = course['course_name']
+                if course_name not in course_count:
+                    course_count[course_name] = 0
+                course_count[course_name] += 1
+        most_popular = max(course_count, key=course_count.get)
+        print(f"Môn học được nhiều sinh viên đăng ký nhất là: {most_popular}")
 
-            # Tìm môn học có số lượng đăng ký lớn nhất
-            max_registered = max(subject_count.values(), key=lambda x: x['count'])
-            print(f"Môn học được nhiều sinh viên đăng ký nhất: {max_registered['name']} với {max_registered['count']} học viên.")
-    except FileNotFoundError:
-        print("Chưa có học viên nào được đăng ký.")  # Thông báo nếu file không tồn tại
+    def course_statistics(self):
+        course_count = {}
+        for student in self.students:
+            for course in student.courses:
+                course_name = course['course_name']
+                if course_name not in course_count:
+                    course_count[course_name] = 0
+                course_count[course_name] += 1
+        for course_name, count in course_count.items():
+            print(f"Môn {course_name}: {count} học viên đăng ký")
 
-# Hàm thống kê số lượng học viên trên mỗi môn học
-def count_students_per_subject():
-    try:
-        # Đọc dữ liệu từ tập tin
-        with open("dssv.txt", "r") as file:
-            students = json.load(file)
-            subject_count = {}  # Khởi tạo dictionary để đếm số lượng học viên đăng ký từng môn
-            
-            # Duyệt qua danh sách học viên và đếm số lượng đăng ký mỗi môn
-            for student in students:
-                for subject in student['subjects']:
-                    if subject['subject_code'] in subject_count:
-                        subject_count[subject['subject_code']]['count'] += 1
-                    else:
-                        subject_count[subject['subject_code']] = {
-                            'name': subject['subject_name'],
-                            'count': 1
-                        }
+# Hàm hiển thị menu và xử lý lựa chọn của người dùng
+def show_menu():
+    print("\n----- MENU -----")
+    print("1. Thêm học viên mới")
+    print("2. Hiển thị thông tin các học viên")
+    print("3. Hiển thị học viên đăng ký ít nhất hai môn học")
+    print("4. Hiển thị môn học được nhiều sinh viên đăng ký nhất")
+    print("5. Thống kê số lượng học viên trên mỗi môn học")
+    print("6. Lưu thông tin học viên vào tập tin")
+    print("0. Thoát")
+    choice = input("Chọn chức năng (0-6): ")
+    return choice
 
-            # Hiển thị số lượng học viên trên mỗi môn học
-            print("Số lượng học viên trên mỗi môn học:")
-            for subject_code, info in subject_count.items():
-                print(f"Mã môn: {subject_code}, Tên môn: {info['name']}, Số học viên: {info['count']}")
-    except FileNotFoundError:
-        print("Chưa có học viên nào được đăng ký.")  # Thông báo nếu file không tồn tại
-
-# Chương trình chính - giao diện điều khiển chính của chương trình
 def main():
+    center = Center()
+
     while True:
-        # Hiển thị menu lựa chọn cho người dùng
-        print("\n=== Quản lý học viên HCMUTE ===")
-        print("1. Nhập thông tin học viên")
-        print("2. Hiển thị thông tin tất cả học viên")
-        print("3. Hiển thị học viên đăng ký ít nhất hai môn")
-        print("4. Hiển thị môn học được nhiều học viên đăng ký nhất")
-        print("5. Thống kê số lượng học viên trên mỗi môn học")
-        print("6. Thoát")
-        
-        # Nhận lựa chọn của người dùng
-        choice = input("Lựa chọn của bạn: ")
+        choice = show_menu()
 
-        # Thực hiện chức năng tương ứng với lựa chọn của người dùng
         if choice == "1":
-            add_student()
-        elif choice == "2":
-            display_all_students()
-        elif choice == "3":
-            display_students_with_two_subjects()
-        elif choice == "4":
-            display_most_registered_subject()
-        elif choice == "5":
-            count_students_per_subject()
-        elif choice == "6":
-            print("Chương trình kết thúc.")  # Thông báo khi thoát chương trình
-            break
-        else:
-            print("Lựa chọn không hợp lệ, vui lòng thử lại.")  # Thông báo khi người dùng nhập sai
+            cmnd = input("Nhập CMND học viên: ")
+            name = input("Nhập tên học viên: ")
+            year_of_birth = int(input("Nhập năm sinh học viên: "))
+            student = Student(cmnd, name, year_of_birth)
+            
+            while True:
+                course_code = input("Nhập mã môn học (hoặc nhập 'stop' để dừng): ")
+                if course_code.lower() == "stop":
+                    break
+                course_name = input("Nhập tên môn học: ")
+                number_of_hours = int(input("Nhập số tiết môn học: "))
+                student.add_course(course_code, course_name, number_of_hours)
 
-# Điểm bắt đầu của chương trình
+            center.add_student(student)
+            print(f"Học viên {name} đã được thêm vào trung tâm.")
+
+        elif choice == "2":
+            print("\nThông tin các học viên đã đăng ký:")
+            center.show_students()
+
+        elif choice == "3":
+            print("\nHọc viên đăng ký ít nhất hai môn học:")
+            center.show_students_with_multiple_courses()
+
+        elif choice == "4":
+            print("\nMôn học được nhiều sinh viên đăng ký nhất:")
+            center.most_popular_course()
+
+        elif choice == "5":
+            print("\nThống kê số lượng học viên trên mỗi môn học:")
+            center.course_statistics()
+
+        elif choice == "6":
+            center.save_to_file()
+            print("Thông tin học viên đã được lưu vào dssv.txt.")
+
+        elif choice == "0":
+            print("Thoát chương trình.")
+            break
+
+        else:
+            print("Lựa chọn không hợp lệ. Vui lòng thử lại.")
+
 if __name__ == "__main__":
-    main()  # Gọi hàm main để chạy chương trình
+    main()

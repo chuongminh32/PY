@@ -1,7 +1,7 @@
 import pandas as pd
 
 # a. Đọc dữ liệu từ tập tin đã cho, sử dụng ký tự phân tách là dấu '|' 
-df = pd.read_csv('D:/NamII_HK1/PY/SCHOOL/Code/BaiTap/BaiTapBuoi11(chart)/u.user', sep='|')
+df = pd.read_csv('D:/NamII_HK1/PY/SCHOOL/Code/BaiTap/BaiTapBuoi11(pandas)/u.user', sep='|')
 
 # b. Độ tuổi trung bình của mỗi nghề nghiệp
 avg_age_by_occupation = df.groupby('occupation')['age'].mean()
@@ -22,5 +22,6 @@ print("\nTuổi trung bình cho mỗi tổ hợp của nghề nghiệp và giớ
 
 # f. Tỷ lệ phần trăm nam và nữ trên mỗi nghề nghiệp
 gender_counts_by_occupation = df.groupby(['occupation', 'gender']).size().unstack(fill_value=0)
-gender_percentage_by_occupation = gender_counts_by_occupation.div(gender_counts_by_occupation.sum(axis=1), axis=0) * 100
-print("\nTỷ lệ phần trăm nam và nữ trên mỗi nghề nghiệp:\n", gender_percentage_by_occupation)
+print(gender_counts_by_occupation)
+# gender_percentage_by_occupation = gender_counts_by_occupation.div(gender_counts_by_occupation.sum(axis=1), axis=0) * 100
+# print("\nTỷ lệ phần trăm nam và nữ trên mỗi nghề nghiệp:\n", gender_percentage_by_occupation)
