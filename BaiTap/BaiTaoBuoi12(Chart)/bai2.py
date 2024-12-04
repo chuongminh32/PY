@@ -1,40 +1,39 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Define the functions
-x1 = np.linspace(-3 * np.pi, 0, 400)
-y1 = 1.5 * np.sin(x1)
+# Tạo giá trị cho x
+x = np.arange(-3 * np.pi, 0, 0.1)
+x2 = np.arange(0, 3 * np.pi, 0.1)
+theta = np.linspace(-3 * np.pi, 3 * np.pi, 400)   
 
-theta = np.linspace(0, 3 * np.pi, 400)
+# Hàm y = 1.5 * sin(x)
+y = 1.5 * np.sin(x)
 r = 2 + np.cos(10 * theta) + 2 * np.sin(5 * theta)
-
-x2 = np.linspace(0, 3 * np.pi, 400)
 y2 = 1.5 * np.sin(x2)
 
-# Create the plot
+
+# Tạo figure cho đồ thị
 plt.figure(figsize=(8, 6))
 
-# Plot the first function
-plt.plot(x1, y1, 'r--', label=r"$y = 1.5 \sin(x)$ with x in [-3$\pi$; 0]")
+# Vẽ đồ thị 1  với đường màu đỏ 
+plt.plot(x, y, 'r:', label=r"$y = 1.5\sin(x)$ with $x \in [-3\pi; 0]$", linewidth=3)
 
-# Plot the second function (polar plot)
-plt.polar(theta, r, 'g-', label=r"$r = 2 + \cos(10\theta) + 2 \sin(5\theta)$")
+# Đồ thị thứ hai: r = 2 + cos(10θ) + 2sin(5θ)
+plt.plot(theta, r, 'g-', label=r"$r = 2 + \cos(10\theta) + 2\sin(5\theta)$", linewidth=3)
 
-# Plot the third function
-plt.plot(x2, y2, 'b:', label=r"$y = 1.5 \sin(x)$ with x in [0; 3$\pi$]")
+# Vẽ đồ thị 2  với đường màu đỏ 
+plt.plot(x2, y2, 'b:', label=r"$y = 1.5\sin(x)$ with $x \in [0; 3\pi]$", linewidth=3)
 
-# Add title and labels
-plt.title("Function Plots with Different Styles", fontsize=14, weight='bold')
-plt.xlabel("x", fontsize=12)
-plt.ylabel("y", fontsize=12)
+# Cài đặt giới hạn cho trục x và y
+plt.xlim(-10, 10)  # Giới hạn trục x từ -10 đến 10
+plt.ylim(-6, 6)  # Giới hạn trục y từ -6 đến 6
 
-# Set custom ticks for x and y axes
-plt.xticks(np.linspace(-10, 10, 9))  # Custom ticks for Ox
-plt.yticks(np.arange(-6, 7, 2))  # Custom ticks for Oy
+# Thêm grid
+plt.grid(True)
 
-# Display the grid and legend
-plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+# # Hiển thị legend
 plt.legend()
 
-# Show the plot
+# Hiển thị đồ thị
 plt.show()
+
