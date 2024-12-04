@@ -5,7 +5,7 @@ import numpy as np
 data = np.random.randn(1000)
 
 # Vẽ histogram
-plt.hist(data, bins=30, color='skyblue', alpha=0.7, edgecolor='black')
+plt.hist(data, bins=10, color='skyblue', alpha=0.7, edgecolor='black')
 
 # Thêm tiêu đề và nhãn cho các trục
 plt.title('Histogram của dữ liệu phân phối chuẩn')

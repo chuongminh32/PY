@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 
 # Dữ liệu
-categories = ['A', 'B', 'C', 'D', 'E']  # Các nhóm
-values = [23, 45, 56, 78, 33]  # Giá trị của các nhóm
+categories = ['A', 'B', 'C', 'D', 'E']  # Các nhóm x
+values = [23, 45, 56, 78, 33]  # Giá trị của các nhóm y
 
 # Vẽ biểu đồ cột
 plt.bar(categories, values, color='skyblue')

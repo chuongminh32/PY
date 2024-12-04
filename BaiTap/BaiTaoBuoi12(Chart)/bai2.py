@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 # Tạo giá trị cho x
 x = np.arange(-3 * np.pi, 0, 0.1)
 x2 = np.arange(0, 3 * np.pi, 0.1)
-theta = np.linspace(-3 * np.pi, 3 * np.pi, 400)   
+theta = np.arange(0, 2*np.pi ,0.01)
+   
 
 # Hàm y = 1.5 * sin(x)
 y = 1.5 * np.sin(x)
